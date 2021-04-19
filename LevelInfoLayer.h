@@ -11,30 +11,12 @@ namespace LevelInfoLayer {
 }
 
 class OptionsLayer : public CCLayerColor {
-protected:
-	char pad[0x1E0u];
-
 public:
 	static OptionsLayer* create() {
 		size_t base = (size_t)GetModuleHandle(0);
-
-		auto pRet = new OptionsLayer;
-		if (pRet) {
-			reinterpret_cast<int(__thiscall*)(OptionsLayer*)>(base + 0x1DCF40)(pRet); // VTable
-
-			float time = 220.f;
-			__asm {
-				movss xmm2, time
-			}
-			if (reinterpret_cast<bool(__thiscall*)(void*, char const*)>(base + 0x113530)(pRet, "Settings")) { // Init
-				pRet->autorelease();
-				return pRet;
-			}
-			else {
-				CC_SAFE_DELETE(pRet);
-				return 0;
-			}
-		}
+		return reinterpret_cast<OptionsLayer * (__stdcall*)()>(
+			base + 0x1DD310
+			)();
 	}
 };
 
